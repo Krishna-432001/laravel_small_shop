@@ -1,0 +1,23 @@
+
+first web la laravel dompdf sreach
+next 
+copy composer code
+
+
+
+composer require barryvdh/laravel-dompdf 
+paste this line cmd poromot
+
+next create invoice controller
+php artisan make:controller InvoiceController
+
+
+resource->view-> invoice.blade.php file create
+
+next route-> web.php la route code insert
+use App\Http\Controllers\InvoiceController;
+
+Route::get('/invoice/{id}', [InvoiceController::class, 'generateInvoicePdf']);
+
+next invoice contorller code type 
+api->invoice controller
