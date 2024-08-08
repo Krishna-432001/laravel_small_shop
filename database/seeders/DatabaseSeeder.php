@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BrandSeeder::class);
         $this->call(ProductSeeder::class); 
         $this->call(CountrySeeder::class);     
+        $this->call(StateSeeder::class);     
         
         $roles=[
             ['name' => 'Admin'],
