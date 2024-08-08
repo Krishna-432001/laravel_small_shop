@@ -83,3 +83,7 @@ Route::get('/generate-barcode/{productId}',[BarcodeController::class,'generateAn
 
 Route::get('/generate-qrcode/{productId}',[BarcodeController::class,'generateAndSaverProductQRCode'])->name('generate.qrcode');
 
+
+use App\Http\Controllers\CityController;
+ 
+Route::get('/show-city-details/{city}', [CityController::class, 'showCityDetails']);
