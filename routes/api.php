@@ -60,3 +60,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/order/confirm', [OrderController::class, 'store']);
 
 });
+
+
+use App\Http\Controllers\api\v2\CityController;
+
+Route::get('/find-state-country/{city}' , [CityController::class, 'findStateAndCountryByCity']);
