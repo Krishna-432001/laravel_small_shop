@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
         // Call the other seeder
         $this->call(CategorySeeder::class);
         $this->call(BrandSeeder::class);
-        $this->call(ProductSeeder::class);     
+        $this->call(ProductSeeder::class); 
+        $this->call(CountrySeeder::class);     
         
         $roles=[
             ['name' => 'Admin'],
