@@ -86,4 +86,11 @@ Route::get('/generate-qrcode/{productId}',[BarcodeController::class,'generateAnd
 
 use App\Http\Controllers\CityController;
  
+Route::get('/cities',[CityController::class,'index'])->name('ciities.index');
+
+Route::get('/city-info',[CityController::class,'cityInfoPage']);
+
+Route::get('/find-state-country/{city}',[CityController::class,'getCityIndo']);
+
+
 Route::get('/show-city-details/{city}', [CityController::class, 'showCityDetails']);
