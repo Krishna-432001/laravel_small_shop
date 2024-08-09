@@ -30,7 +30,7 @@ Order page
                     </thead>
                     <tbody>
                         @foreach ($orders as $row)
-                            <tr>
+                            <tr>                        
                                 <td>{{ $row->order_number }}</td>
                                 <td>{{ $row->order_date }}</td>
                                 <td>{{ $row->total_amount }}</td>
@@ -38,6 +38,7 @@ Order page
                                 <td>{{ $row->payment_method }}</td>
                                 <td>
                                     <a href="{{ route('order.show', $row->id) }}" class="btn btn-info btn-sm">View Details</a>
+                                    <a href="{{ route('invoice.stream-pdf', ['id' => $row->id]) }}" target="_blank" class="btn btn-secondary btn-sm">View Invoice</a>
                                 </td>
                             </tr>
                         @endforeach
