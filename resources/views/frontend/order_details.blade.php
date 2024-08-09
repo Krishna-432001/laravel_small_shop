@@ -56,6 +56,8 @@
     <!-- Actions -->
     <div class="mt-4">
         <a href="{{ route('order.index') }}" class="btn btn-primary">Back to Orders</a>
+
+        <a href="{{ route('invoice.stream-pdf', ['id' => $order->id]) }}" target="_blank" class="btn btn-secondary">View Invoice</a>
         <!-- Additional actions like printing or emailing the invoice can go here -->
     </div>
 </div>
