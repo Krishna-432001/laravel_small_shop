@@ -36,7 +36,7 @@
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                 <div class="d-flex align-items-center mb-3">
-                    <input type="number" name="quantity" class="form-control w-25" value="1" min="1">
+                    <input type="number" name="qty" class="form-control w-25" value="1" min="1">
                     <button type="submit" class="btn btn-primary ms-3">Add to Cart</button>
                 </div>
             </form>

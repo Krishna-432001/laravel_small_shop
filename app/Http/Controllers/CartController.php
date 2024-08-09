@@ -36,6 +36,8 @@ class CartController extends Controller
         $product_id = $request->input('product_id');
         $qty = $request->input('qty', 1);
 
+        // dd($request);
+
         // Retrieve the product
         $product = Product::find($product_id);
 
@@ -60,7 +62,7 @@ class CartController extends Controller
             Cart::create([
                 'product_id' => $product_id,
                 'customer_id' => $user->id,
-                'qty' => 1,
+                'qty' => $qty,
             ]);
             
             return redirect()->back()->with('success', $product->name . " added to your cart." );
