@@ -20,6 +20,10 @@
             
             <h6 class="card-subtitle mb-2 text-muted">Order Summary</h6>
             <p class="card-text">Total Amount: ${{ number_format($order->total_amount, 2) }}</p>
+
+            <p class="card-text">SGST: $ {{ number_format($order->calculaterSGST(), 2) }}</p>
+            <p class="card-text">CGST: $ {{ number_format($order->calculaterCGST(), 2) }}</p>
+            <p class="card-text">CGST: $ {{ $order->convertTaxAmountInWords() }}Rupees only</p>
             <p class="card-text">Status: <span class="badge bg-{{ $order->order_status === 'ORDER PLACED' ? 'success' : 'warning' }}">{{ ucfirst($order->status) }}</span></p>
         </div>
     </div>
