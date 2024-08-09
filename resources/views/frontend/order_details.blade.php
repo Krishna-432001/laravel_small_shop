@@ -43,9 +43,9 @@
                     @foreach($order->orderItems as $item)
                         <tr>
                             <td>{{ $item->product->name }}</td>
-                            <td>${{ number_format($item->unit_price, 2) }}</td>
+                            <td>₹{{ number_format($item->unit_price, 2) }}</td>
                             <td>{{ $item->qty }}</td>
-                            <td>${{ number_format($item->amount, 2) }}</td>
+                            <td>₹{{ number_format($item->amount, 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
