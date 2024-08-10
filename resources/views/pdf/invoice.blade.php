@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- <link rel="stylesheet" href="main.css"> -->
-    <!-- <script src="main.js"></script> -->
+    <title>Invoice</title>
     <style>      
         table, th, td {
             border: 1px solid black;
@@ -14,33 +12,28 @@
         .store-name {
             text-transform: uppercase;
             font-size: 2em;
-            font-family: calibri;
+            font-family: Calibri, sans-serif;
         }
     </style>
     <script>
-        window.onload = function()
-        {
-            function calculateTotalamount(){
-                var table = documnet.getElementsById("invoiceTable");
-                var rows = table.getElemenbtsByTagName("tr);
-                var totalAmount =0;
-                for(var i=2;i<rows.length -2; i++)
-                {
-                    var cells=rows[i].getElementsByTagName("td");
+        window.onload = function() {
+            function calculateTotalAmount() {
+                var table = document.getElementById("invoiceTable");
+                var rows = table.getElementsByTagName("tr");
+                var totalAmount = 0;
+                for (var i = 2; i < rows.length - 4; i++) { // Adjusted range to exclude SGST and CGST rows
+                    var cells = rows[i].getElementsByTagName("td");
                     var amountCell = cells[4];
-                    if(amountCell)
-                    {
-                        totalAmount += parseFolat(amountCell.textContent ||amountCell.innerText);
-                    }
-                    }
-                    var totalAmount = document.getElementBYId("totalAmount");
-                    if(totalAmountCell)
-                    {
-                        totalAmountCell.textContent = totalAmount.toFixed(2);
+                    if (amountCell) {
+                        totalAmount += parseFloat(amountCell.textContent || amountCell.innerText);
                     }
                 }
-                calculateTotalAmount();
+                var totalAmountElement = document.getElementById("totalAmount");
+                if (totalAmountElement) {
+                    totalAmountElement.textContent = totalAmount.toFixed(2);
+                }
             }
+            calculateTotalAmount();
         }
     </script>
 </head>
@@ -61,13 +54,13 @@
                 <br><br>
                 <table border="0" width="100%">
                     <tr>
-                        <td align="left">Bill No :{{ $order->order_number }}</td>
-                        <td align="right">Date :{{ $order->order_date }}</td>
+                        <td align="left">Bill No: {{ $order->order_number }}</td>
+                        <td align="right">Date: {{ $order->order_date }}</td>
                     </tr>
                 </table>
                 <br><br>
                 <div align="left">
-                    M/S :{{ $order->customer->email }}
+                    M/S: {{ $order->customer->email }}
                 </div>
                 <br><br>
             </th>
@@ -93,13 +86,13 @@
         <tr height="5">
             <td>{{ $row->id }}</td>
             <td>{{ $row->product->name }}</td>
-            <td>{{ $row->qty }}</td>
             <td>
-                <span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>
+                <span style="font-family: DejaVu Sans, sans-serif;">&#8377;</span>
                 {{ $row->product->price }}
             </td>
+            <td>{{ $row->qty }}</td>
             <td>
-                <span style="font-family: DejaVu Sans; sans-serif;">&#8377;</span>
+                <span style="font-family: DejaVu Sans, sans-serif;">&#8377;</span>
                 {{ $row->qty * $row->product->price }}
             </td>
         </tr>
@@ -107,34 +100,52 @@
         <tr height="5">
             <th>&nbsp;</th>
             <th>&nbsp;</th>
-            <th colspan="2">Total Amount</th>
+            <th colspan="2">Subtotal</th>
             <th id="totalAmount">&nbsp;</th>
         </tr>
-        
+        <tr height="5">
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th colspan="2">SGST ({{ $order->sgst_percentage }}%)</th>
+            <th>
+                <span style="font-family: DejaVu Sans, sans-serif;">&#8377;</span>
+                {{ $order->calculaterSGST() }}
+            </th>
+        </tr>
+        <tr height="5">
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th colspan="2">CGST ({{ $order->cgst_percentage }}%)</th>
+            <th>
+                <span style="font-family: DejaVu Sans, sans-serif;">&#8377;</span>
+                {{ $order->calculaterCGST() }}
+            </th>
+        </tr>
+        <tr height="5">
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th colspan="2">Total Amount</th>
+            <th>
+                <span style="font-family: DejaVu Sans, sans-serif;">&#8377;</span>
+                {{ $order->total_amount_with_SGST_CGST() }}
+            </th>
+        </tr>
         <tr height="60px">
             <th colspan="5" align="right">
                 <span style="font-size: 1em;">
-                   
                     {{ $order->getTotalAmountInWords() }} only <br>
-
                     {{ $order->convertTaxAmountInWords() }} only
-                    
                 </span>
             </th>
         </tr>
-        
         <tr height="60px">
             <th colspan="5" align="right">
                 <span style="font-size: 1em;">
                     Small Shop Store<br>
                     Authorized Signature
-                    
                 </span>
             </th>
         </tr>
-
-        
-        
         <!-- Example of displaying the UPI QR code -->
         <tr>
             <td colspan="5">
@@ -142,6 +153,5 @@
             </td>
         </tr>
     </table>
-    
 </body>
 </html>
