@@ -39,7 +39,7 @@ class FrontendAuthTest extends DuskTestCase
     public function testLogout(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/profile')
+            $browser->visit('/account')
                 ->screenshot('profile_page_logout_button_present')
                 ->clickLink('logout')
                 ->assertPathIs('/')
