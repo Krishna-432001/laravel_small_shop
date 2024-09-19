@@ -7,7 +7,16 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+//  v1 React Backend
+use App\Http\Controllers\api\v1\CategoryController as V1_CategoryController;
 
+Route::prefix('v1')->group(function () {
+    
+    Route::apiResource('categories', CategoryController::class);
+
+});
+
+//  v2 Android and Ios app
 use App\http\Controllers\api\v2\AuthController;
 
 Route::post('/login',[AuthController::class,'login']);
