@@ -12,7 +12,7 @@ use App\Http\Controllers\api\v1\CategoryController as V1_CategoryController;
 
 Route::prefix('v1')->group(function () {
     
-    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('categories', V1_CategoryController::class);
 
 });
 
