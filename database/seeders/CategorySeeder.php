@@ -14,13 +14,39 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categories=[
-            ['name'=>'TV'],
-            ['name'=>'Laptop'],
-            ['name'=>'AC'],
-            ['name'=>'Fan'],
-            ['name'=>'Fridge'],
+        $categories = [
+            ['name' => 'Smartphones'],
+            ['name' => 'Tablets'],
+            ['name' => 'Laptops'],
+            ['name' => 'Televisions'],
+            ['name' => 'Refrigerators'],
+            ['name' => 'Air Conditioners'],
+            ['name' => 'Washing Machines'],
+            ['name' => 'Microwave Ovens'],
+            ['name' => 'Fans'],
+            ['name' => 'Smart Watches'],
+            ['name' => 'Headphones'],
+            ['name' => 'Speakers'],
+            ['name' => 'Gaming Consoles'],
+            ['name' => 'Cameras'],
+            ['name' => 'Printers'],
+            ['name' => 'Vacuum Cleaners'],
+            ['name' => 'Kitchen Appliances'],
+            ['name' => 'Fitness Trackers'],
+            ['name' => 'Home Theaters'],
+            ['name' => 'Monitors'],
+            ['name' => 'Projectors'],
+            ['name' => 'Smart Home Devices'],
+            ['name' => 'Bluetooth Accessories'],
+            ['name' => 'Wearable Devices'],
+            ['name' => 'Power Banks'],
+            ['name' => 'Air Purifiers'],
+            ['name' => 'Water Purifiers'],
+            ['name' => 'Heaters'],
+            ['name' => 'Coffee Machines'],
+            ['name' => 'Dishwashers']
         ];
+        
         // Category::insert($categories);
 
         foreach ($categories as $row) 
