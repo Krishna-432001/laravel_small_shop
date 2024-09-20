@@ -15,12 +15,36 @@ class BrandSeeder extends Seeder
     public function run(): void
     {
         $brands = [
-            ['name'=> 'HP',],
-            ['name'=> 'lenova'],
-            ['name'=> 'intel'],
+            ['name'=> 'Infinix'],
+            ['name'=> 'Samsung'],
+            ['name'=> 'Motorola'],
+            ['name'=> 'Realme'],
+            ['name'=> 'Redmi'],
+            ['name'=> 'Oppo'],
+            ['name'=> 'Vivo'],
+            ['name'=> 'OnePlus'],
+            ['name'=> 'Apple'],
+            ['name'=> 'Google Pixel'],
+            ['name'=> 'Xiaomi'],
+            ['name'=> 'Huawei'],
+            ['name'=> 'Nokia'],
+            ['name'=> 'Sony'],
             ['name'=> 'LG'],
-            ['name'=> 'Sony']
+            ['name'=> 'Asus'],
+            ['name'=> 'HTC'],
+            ['name'=> 'Tecno'],
+            ['name'=> 'Lenovo'],
+            ['name'=> 'Honor'],
+            ['name'=> 'Meizu'],
+            ['name'=> 'ZTE'],
+            ['name'=> 'BlackBerry'],
+            ['name'=> 'Poco'],
+            ['name'=> 'iQOO'],
+            ['name'=> 'Lava'],
+            ['name'=> 'Micromax'],
+            ['name'=> 'Fairphone']
         ];
+        
         
         foreach ($brands as $row) {
             Brand::create($row);
