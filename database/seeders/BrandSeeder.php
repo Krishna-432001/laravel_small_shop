@@ -50,4 +50,6 @@ class BrandSeeder extends Seeder
             Brand::create($row);
         }
     }
+
+    
 }
