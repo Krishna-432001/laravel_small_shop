@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/upload-profile-pic', [AuthController::class, 'upload']);
 
-    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
 });
 
@@ -74,3 +74,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 use App\Http\Controllers\api\v2\CityController;
 
 Route::get('/find-state-country/{city}' , [CityController::class, 'findStateAndCountryByCity']);
+
+
+
+// V1
+use App\Http\Controllers\api\v1\CategoryController as V1CategoryController;
+use App\Http\Controllers\api\v1\BrandController as V1BrandController;
+
+Route::prefix('v1')->group(function () {
+    Route::apiResource('categories', V1CategoryController::class);
+    Route::apiResource('brands', V1BrandController::class);
+});
