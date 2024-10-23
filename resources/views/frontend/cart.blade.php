@@ -27,7 +27,9 @@
             <thead>
                 <tr>
                     <th scope="col">Product</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Price</th>
+                    
                     <th scope="col">Quantity</th>
                     <th scope="col">Total</th>
                     <th scope="col">Actions</th>
@@ -37,6 +39,12 @@
                 @foreach($carts as $cart)
                     <tr>
                         <td>{{ $cart->product->name }}</td>
+
+                         <!-- Product Image -->
+                         <td>
+                            <img src="{{ asset($cart->product->image_path) }}" alt="{{ $cart->product->name }}" class="img-fluid product-image"style="width: 90px; height: auto;">
+                        </td>
+                        
                         <td>${{ number_format($cart->product->price, 2) }}</td>
                         <td>
                             <form action="{{ route('cart.decrease', $cart->id) }}" method="POST" class="d-inline">
