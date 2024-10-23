@@ -77,7 +77,15 @@ Home Page
                             <h5 class="card-title">{{ $item->name }}</h5>
                             <p class="card-text">{{ $item->description }}</p>
                             <p class="card-text"><strong>${{ $item->price }}</strong></p>
-                            <a href="/cart" class="btn btn-primary">Add to Cart</a>
+                            <!-- Add to Cart Form -->
+                            <form action="{{ route('cart.add_to_cart') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                <div class="d-flex align-items-center mb-3">
+                                    <input type="number" name="qty" class="form-control w-25" value="1" min="1">
+                                    <button type="submit" class="btn btn-primary ms-3">Add to Cart</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </a>
