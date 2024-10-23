@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Session;
+
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\OrderHistory;
 
 use App\Enums\OrderStatus;
+
+// Razorpay
+use Razorpay\Api\Api;
 
 class OrderController extends Controller
 {
@@ -78,12 +83,46 @@ class OrderController extends Controller
             // Clear the cart
             $user->cartItems()->delete();
 
+
+            // Initialize Razorpay API
+            $apiKey = env('RAZORPAY_KEY');
+            $apiSecret = env('RAZORPAY_SECRET');
+            $api = new Api($apiKey, $apiSecret);
+
+            // Create an order on Razorpay
+            $totalAmount = $cartItems->sum(fn($cart) => $cart->product->price * $cart->qty);
+
+            $orderAmount = $totalAmount * 100; // Razorpay expects the amount in paise (multiply by 100)
+            $orderData = [
+                'receipt' => (string) $order->id, // Convert the orderId to a string
+                'amount' => $orderAmount,       // This should remain as an integer (in paise)
+                'currency' => 'INR',            // Keep this as a string
+                'payment_capture' => 1          // Keep this as an integer (auto-capture)
+            ];
+
+            $razorpayOrder = $api->order->create($orderData); // Create a new order
+
+            session()->put('order_id', $order->id);
+            session()->put('razorpay_order_id', $razorpayOrder['id']);
+
             // Commit transaction
             DB::commit();
 
             // Redirect to payment gateway or order confirmation
-            return redirect()->route('order.confirmation', ['order' => $order->id])
-                            ->with('success', 'Order placed successfully.');
+
+            // return redirect()->route('order.confirmation', ['order' => $order->id])
+            //                 ->with('success', 'Order placed successfully.');
+
+            // Redirect to the Razorpay payment page
+            return view('frontend.razorpay_payment', [
+                'orderId' => $order->id,
+                'razorpayOrderId' => $razorpayOrder['id'],
+                'orderAmount' => $orderAmount / 100, // Show the amount in rupees
+                'userEmail' => $user->email, // User email for Razorpay
+                'userContact' => $user->email, // User contact for Razorpay
+                'apiKey' => $apiKey // Pass the Razorpay API key to the view
+            ]);
+
         } catch (\Exception $e) {
             // Rollback transaction in case of error
             DB::rollback();
@@ -91,6 +130,40 @@ class OrderController extends Controller
             throw new \Exception($e);
             // return redirect()->route('cart.index')->with('error', 'Something went wrong. Please try again.' . $e);
         }
+    }
+
+    public function paymentSuccess(Request $request)
+    {
+        $razorpayPaymentId = $request->input('razorpay_payment_id'); // Get the Razorpay payment ID
+        
+
+        // Retrieve Razorpay order ID from session
+        $orderId = Session::get('order_id');
+
+        if (!$orderId) {
+            return redirect()->route('cart.index')->with('error', 'Order ID not found. Please try again.');
+        }
+
+        // Fetch the exact order record to update it
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return redirect()->route('cart.index')->with('error', 'Order not found. Please try again.');
+        }
+
+        // Update the order status to "Paid"
+        $order->update([
+            'payment_status' => 'paid',
+            'payment_id' => $razorpayPaymentId // Store the payment ID or other relevant info
+        ]);
+
+        // Clear the session data
+        Session::forget('razorpay_order_id');
+        Session::forget('order_id');
+
+        // Redirect to the order confirmation page with a success message
+        return redirect()->route('order.confirmation', $order->id)
+            ->with('success', 'Payment successful and order placed.');
     }
 
     public function confirmation(Request $request)
