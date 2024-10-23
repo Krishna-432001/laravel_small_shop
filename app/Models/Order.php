@@ -21,7 +21,9 @@ class Order extends Model
         'order_date',
         'total_amount',
         'order_status',
-        'payment_method'
+        'payment_method',
+        'payment_id',
+        'payment_status'
     ];
 
     protected $dates = ['order_date'];
