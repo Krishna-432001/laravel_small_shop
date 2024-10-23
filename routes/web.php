@@ -58,7 +58,18 @@ use App\Http\Controllers\OrderController;
 Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
 
 // Checkout Route
-Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout');
+// Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout');
+
+Route::middleware('auth')->group(function () {
+    // Route for the checkout process
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+
+    // Route for handling payment success (POST request from Razorpay)
+    Route::post('orders/payment-success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
+    
+    // Route for order confirmation page
+    Route::get('/order/confirmation/{order}', [OrderController::class, 'orderConfirmation'])->name('order.confirmation');
+});
 
 // Order Confirmation Route
 Route::get('order/confirmation/{order}', [OrderController::class, 'confirmation'])->name('order.confirmation');
