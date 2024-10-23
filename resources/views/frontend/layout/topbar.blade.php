@@ -50,14 +50,16 @@
             @endif
         </ul>
 
+        @if (Auth::check())
         <!-- Cart Icon -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('cart.index') }}">
-                    <i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-pill badge-danger">2</span> <!-- Example for cart count -->
+                    <i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-pill badge-danger"></span> <!-- Example for cart count -->
                 </a>
             </li>
         </ul>
+        @endif
     </div>
 </nav>
 
