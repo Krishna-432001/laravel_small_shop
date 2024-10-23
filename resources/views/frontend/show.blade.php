@@ -30,6 +30,18 @@
     <div class="row">
         <!-- Product Image -->
         <div class="col-md-6">
+
+            @if(session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
             
             <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}" class="img-fluid product-image">
             {{-- <p>Image URL: {{ $product->GetImagePath() }}</p> <!-- Debugging line --> --}}
