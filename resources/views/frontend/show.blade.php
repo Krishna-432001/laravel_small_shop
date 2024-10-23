@@ -30,7 +30,9 @@
     <div class="row">
         <!-- Product Image -->
         <div class="col-md-6">
-            <img src="{{ $product->GetImagePath() }}" alt="{{ $product->name }}" class="img-fluid product-image">
+            
+            <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}" class="img-fluid product-image">
+            {{-- <p>Image URL: {{ $product->GetImagePath() }}</p> <!-- Debugging line --> --}}
         </div>
         
         <!-- Product Details -->
