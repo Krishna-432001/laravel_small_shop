@@ -29,7 +29,6 @@
                     <th scope="col">Product</th>
                     <th scope="col">Image</th>
                     <th scope="col">Price</th>
-                    
                     <th scope="col">Quantity</th>
                     <th scope="col">Total</th>
                     <th scope="col">Actions</th>
@@ -38,15 +37,23 @@
             <tbody>
                 @foreach($carts as $cart)
                     <tr>
-                        <td>{{ $cart->product->name }}</td>
-
-                         <!-- Product Image -->
-                         <td>
-                            <img src="{{ asset($cart->product->image_path) }}" alt="{{ $cart->product->name }}" class="img-fluid product-image"style="width: 90px; height: auto;">
+                        <!-- Clickable Product Name and Image to Product Detail -->
+                        <td>
+                            <a href="{{ route('product.show', $cart->product->id) }}" class="text-decoration-none">
+                                {{ $cart->product->name }}
+                            </a>
+                        </td>
+                        
+                        <!-- Clickable Product Image to Product Detail -->
+                        <td>
+                            <a href="{{ route('product.show', $cart->product->id) }}">
+                                <img src="{{ asset($cart->product->image_path) }}" alt="{{ $cart->product->name }}" class="img-fluid" style="width: 90px; height: auto;">
+                            </a>
                         </td>
                         
                         <td>${{ number_format($cart->product->price, 2) }}</td>
                         <td>
+                            <!-- Decrease Quantity -->
                             <form action="{{ route('cart.decrease', $cart->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-danger btn-sm">-</button>
@@ -54,14 +61,15 @@
 
                             {{ $cart->qty }}
 
+                            <!-- Increase Quantity -->
                             <form action="{{ route('cart.increase', $cart->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-success btn-sm">+</button>
                             </form>
-                            
                         </td>
                         <td>${{ number_format($cart->product->price * $cart->qty, 2) }}</td>
                         <td>
+                            <!-- Remove Product -->
                             <form action="{{ route('cart.remove', $cart->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -87,11 +95,9 @@
 
         <!-- Checkout Button -->
         <div class="mt-4">
-            <!-- <a href="{{ route('checkout') }}" class="btn btn-primary">Proceed to Checkout</a> -->
-             <!-- Clear Cart Button -->
-            <form action="{{ route('checkout') }}" method="POST" class="mt-4">
+            <form action="{{ route('checkout') }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-danger">Proceed to Checkout</button>
+                <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
             </form>
         </div>
     @endif
