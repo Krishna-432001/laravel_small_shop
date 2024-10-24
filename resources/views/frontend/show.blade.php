@@ -53,7 +53,8 @@
                 <h1 class="mb-3">{{ $product->name }}</h1>
                 <p class="lead">{{ $product->description }}</p>
                 <h4 class="text-success mb-3">${{ number_format($product->price, 2) }}</h4>
-
+ 
+                @if (Auth::check())
                 <!-- Add to Cart Form -->
                 <form action="{{ route('cart.add_to_cart') }}" method="POST">
                     @csrf
@@ -64,8 +65,17 @@
                     </div>
                 </form>
 
+                @else
+                    
+                <a href="/login" class="btn btn-primary ms-3">Add to Cart</a>
+
+                @endif
+                                
+
+
                 <p><strong>Category:</strong> {{ $product->category->name }}</p>
                 <p><strong>Brand:</strong> {{ $product->brand->name }}</p>
+                
             </div>
         </div>
     </div>
